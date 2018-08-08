@@ -50,7 +50,7 @@ int main() {
 				if(toRead[persona_leyendo] > maximo) {
 					maximo = toRead[persona_leyendo];
 				}
-				if(maximo > min_max) {
+				if(maximo >= min_max) {
 					break;
 				}
 				persona_leyendo++;
