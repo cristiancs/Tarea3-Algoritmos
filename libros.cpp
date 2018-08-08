@@ -32,28 +32,30 @@ int main() {
 			
 		}
 
+		// int promedio_por_estudiante = suma/integrantes;
+		// int promedio_por_libro = suma/libros;
+
 		int limiter = paginas_minimas;
 		int min_max = 9999999;
 		while(limiter < suma/2) {
 			int libro = 0;
 			int persona_leyendo = 0;
+			int maximo = 0;
 			while(libro < libros){
 				toRead[persona_leyendo] = 0;
 				while((toRead[persona_leyendo]+paginas[libro] <= limiter || persona_leyendo == integrantes-1) && libro < libros) {
 					toRead[persona_leyendo]+= paginas[libro];
 					libro++;
 				}
+				if(toRead[persona_leyendo] > maximo) {
+					maximo = toRead[persona_leyendo];
+				}
+				if(maximo > min_max) {
+					break;
+				}
 				persona_leyendo++;
 			}
 			limiter+=paginas_minimas/integrantes;
-			i = 0;
-			int maximo = 0;
-			while(i < integrantes){
-				if(toRead[i] > maximo) {
-					maximo = toRead[i];
-				}
-				i++;
-			}
 			min_max = min(maximo, min_max);
 			
 		}
