@@ -10,12 +10,15 @@
 using namespace std;
 
 int main() {
-	while(true){
+	int flag = 1;
+	while(flag){
 		int integrantes = 0;
 		int libros = 0;
 		cin >> integrantes;
 		cin >> libros;
-
+		if(integrantes == 0) {
+			break;
+		}
 		int paginas[libros];
 		int toRead[integrantes];
 		int i = 0;
@@ -28,12 +31,6 @@ int main() {
 			i++;
 			
 		}
-		int promedio = suma / integrantes;
-		int paginas_promedio = suma / libros;
-		cout << promedio << "|"  << promedio+paginas_promedio << "|" << 89239 << endl;
-
-
-
 
 		int limiter = paginas_minimas;
 		int min_max = 9999999;
@@ -48,7 +45,7 @@ int main() {
 				}
 				persona_leyendo++;
 			}
-			limiter+=paginas_minimas;
+			limiter+=paginas_minimas/integrantes;
 			i = 0;
 			int maximo = 0;
 			while(i < integrantes){
