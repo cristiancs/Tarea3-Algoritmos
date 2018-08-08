@@ -34,7 +34,7 @@ int main() {
 
 		int limiter = paginas_minimas;
 		int min_max = 9999999;
-		while(limiter < suma) {
+		while(limiter < suma/2) {
 			int libro = 0;
 			int persona_leyendo = 0;
 			while(libro < libros){
