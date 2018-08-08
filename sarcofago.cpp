@@ -77,7 +77,7 @@ int main() {
             dep[i2].insert(i1);
         }
         unordered_set<int> vistos;
-        while (!ady.empty()) {
+        while ( !(ady.empty() && disponibles.empty())) {
             int max = 0;
             int actual = 0;
 
@@ -88,19 +88,22 @@ int main() {
                     max = pesos[*it];
                 }
             }
-
+            
             disponibles.erase(actual);
-            if (!ady[actual].empty()) {
-                // Eliminar dependencias del actual
-                for ( auto it = ady[actual].begin(); it != ady[actual].end(); ++it ) {
-                    dep[*it].erase(actual);
-                    if (dep[*it].empty()) {
-                        disponibles.insert(*it);
+            if (!ady.empty()) {
+                if (!ady[actual].empty()) {
+                    // Eliminar dependencias del actual
+                    for ( auto it = ady[actual].begin(); it != ady[actual].end(); ++it ) {
+                        dep[*it].erase(actual);
+                        if (dep[*it].empty()) {
+                            disponibles.insert(*it);
+                        }
                     }
                 }
+                // Eliminar de los que faltan por recorrer
+                ady.erase(actual);
             }
-            // Eliminar de los que faltan por recorrer
-            ady.erase(actual);
+            
             // Imprimir
             cout << actual << " ";
         }
