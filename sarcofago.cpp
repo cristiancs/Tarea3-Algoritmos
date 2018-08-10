@@ -9,33 +9,23 @@
 
 using namespace std;
 
+// Estructura para guardar el nodo del grafo, con sus adyacencias o dependencias (del grafo dirigido)
 typedef unordered_map<int, unordered_set<int> > mapa;
-
-struct nodo {
-    int n_sarcofago;
-    int tiempo;
-};
-
-struct arista {
-    struct nodo *sig;
-    struct nodo *ant;
-};
-
-void addDoubleEdge(vector<arista> ar, nodo * n1, nodo * n2) {
-
-}
 
 int main() {
     int n_instrucciones = 0;
     int n_dependencias = 0;
-    
+    // Leer instrucciones
     while (cin >> n_instrucciones >> n_dependencias) {
+        // Estructura para guardar duracion del sarcofago
         map<int, int> pesos;
+
         int aux_ins = 0;
         int aux_pes = 0;
         
         mapa ady;
         mapa dep;
+        // Estructura para guardar a cuales se tiene acceso actualmente
         unordered_set<int> disponibles;
         // Leer los pesos de cada sarcofago
         for (int i=0; i<n_instrucciones; i++) {
@@ -56,12 +46,14 @@ int main() {
             ady[i1].insert(i2);
             dep[i2].insert(i1);
         }
-        unordered_set<int> vistos;
+        
+        // Iterar mientras haya sarcofagos en la lista de adyacencia o bien mientras
+        // queden por recorrer todavia en los disponibles
         while ( !(ady.empty() && disponibles.empty())) {
             int max = 0;
             int actual = 0;
 
-            // Elergir el de mayor duracion disponible
+            // Elegir el de mayor duracion disponible
             for ( unordered_set<int>::iterator it = disponibles.begin(); it != disponibles.end(); ++it ) {
                 if (pesos[*it] > max) {
                     actual = *it;
@@ -69,7 +61,9 @@ int main() {
                 }
             }
             
+            // Actualizar
             disponibles.erase(actual);
+
             if (!ady.empty()) {
                 if (!ady[actual].empty()) {
                     // Eliminar dependencias del actual
@@ -80,7 +74,7 @@ int main() {
                         }
                     }
                 }
-                // Eliminar de los que faltan por recorrer
+                // Si al nodo actual no le queda nada por abrir, eliminar
                 ady.erase(actual);
             }
             
