@@ -31,11 +31,9 @@ int main() {
     
     while (cin >> n_instrucciones >> n_dependencias) {
         map<int, int> pesos;
-        //cout << "Ins " << n_instrucciones << " Dep " << n_dependencias << endl;
         int aux_ins = 0;
         int aux_pes = 0;
         
-        //Try max size
         mapa ady;
         mapa dep;
         unordered_set<int> disponibles;
@@ -44,8 +42,6 @@ int main() {
             cin >> aux_ins >> aux_pes;
             pesos[aux_ins] = aux_pes;
             disponibles.insert(aux_ins);
-            //cout << "Ins: " << aux_ins << " Pes: "<<aux_pes<<endl;
-            
         }
 
         int i1=0;
@@ -54,22 +50,6 @@ int main() {
         // Leer las dependencias de cada sarcofago
         for (int i =0; i<n_dependencias; i++) {
             cin >> i1 >> i2;
-            //cout << "i1: "<<i1<<" i2: "<<i2<<endl;
-            /*
-            if(ady.find(i1) == ady.end()){
-                ady[i1].insert(i2);
-            }
-            else {
-                ady[i1].insert(i2);
-            }
-
-            if(dep.find(i2) == ady.end()){
-                unordered_set<int> dependiente = { i1 };
-                dep[i2] = dependiente);
-            }
-            else {
-                dep[i2].insert(i1);
-            }*/
             // Actualizar disponibles
             disponibles.erase(i2);
             // Meter en listas de adyacencia
@@ -82,7 +62,7 @@ int main() {
             int actual = 0;
 
             // Elergir el de mayor duracion disponible
-            for ( auto it = disponibles.begin(); it != disponibles.end(); ++it ) {
+            for ( unordered_set<int>::iterator it = disponibles.begin(); it != disponibles.end(); ++it ) {
                 if (pesos[*it] > max) {
                     actual = *it;
                     max = pesos[*it];
@@ -93,7 +73,7 @@ int main() {
             if (!ady.empty()) {
                 if (!ady[actual].empty()) {
                     // Eliminar dependencias del actual
-                    for ( auto it = ady[actual].begin(); it != ady[actual].end(); ++it ) {
+                    for ( unordered_set<int>::iterator it = ady[actual].begin(); it != ady[actual].end(); ++it ) {
                         dep[*it].erase(actual);
                         if (dep[*it].empty()) {
                             disponibles.insert(*it);
@@ -108,9 +88,5 @@ int main() {
             cout << actual << " ";
         }
         cout << endl;
-
-
-       // cout<<endl;
     }
-        
 }
