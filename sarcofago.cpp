@@ -1,7 +1,4 @@
 #include<iostream>
-#include <queue>
-#include <string.h>
-#include <vector>
 #include <map>
 #include <unordered_map>
 #include <unordered_set>
@@ -81,6 +78,6 @@ int main() {
             // Imprimir
             cout << actual << " ";
         }
-        cout << endl;
+        cout << endl << endl;
     }
 }
