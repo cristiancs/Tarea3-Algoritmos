@@ -24,7 +24,7 @@ int main() {
 		int toRead[integrantes];
 		int i = 0;
 		int suma = 0;
-		int paginas_minimas = 9999999;
+		int paginas_minimas = numeric_limits<int>::max();
 
 		// Leemos todas las paginas y las metemos en un arreglo
 		while(i < libros){
@@ -36,7 +36,7 @@ int main() {
 		}
 
 		int limiter = paginas_minimas;
-		int min_max = 9999999;
+		int min_max = numeric_limits<int>::max();
 		while(limiter < suma/2) {
 			int libro = 0;
 			int persona_leyendo = 0;
