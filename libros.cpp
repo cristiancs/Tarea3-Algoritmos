@@ -48,16 +48,19 @@ int main() {
 				// Asignamos libros a cada uno hasta llegar al limite o si es la última persona, todos los que le quedan.
 				while((toRead[persona_leyendo]+paginas[libro] <= limiter || persona_leyendo == integrantes-1) && libro < libros) {
 					
+					// Si es el último lector, usamos matematicas para asignarle los libros a leer
 					int restante = suma-acumulado_leido;
 					if(persona_leyendo == integrantes-1) {
 						toRead[persona_leyendo] = restante;
 						libro = libros;
 						break;
 					}
+					// Si la persona ya ha leido más que el min_max que tenemos cortamos el ciclo
 					if(toRead[persona_leyendo] > min_max) {
 						libro = libros;
 						break;
 					}
+
 					acumulado_leido+=paginas[libro];
 					toRead[persona_leyendo]+= paginas[libro];
 					libro++;
