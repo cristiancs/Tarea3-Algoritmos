@@ -16,6 +16,7 @@ int main() {
 		int libros = 0;
 		cin >> integrantes;
 		cin >> libros;
+		// Verificar si termino la entrada
 		if(integrantes == 0) {
 			break;
 		}
@@ -24,6 +25,8 @@ int main() {
 		int i = 0;
 		int suma = 0;
 		int paginas_minimas = 9999999;
+
+		// Leemos todas las paginas y las metemos en un arreglo
 		while(i < libros){
 			cin >> paginas[i];
 			suma+=paginas[i];
@@ -32,17 +35,16 @@ int main() {
 			
 		}
 
-		// int promedio_por_estudiante = suma/integrantes;
-		// int promedio_por_libro = suma/libros;
-
 		int limiter = paginas_minimas;
 		int min_max = 9999999;
 		while(limiter < suma/2) {
 			int libro = 0;
 			int persona_leyendo = 0;
 			int maximo = 0;
+			// Este loop se encarga de asignar los libros que lee cada persona
 			while(libro < libros){
 				toRead[persona_leyendo] = 0;
+				// Asignamos libros a cada uno hasta llegar al limite o si es la última persona, todos los que le quedan.
 				while((toRead[persona_leyendo]+paginas[libro] <= limiter || persona_leyendo == integrantes-1) && libro < libros) {
 					toRead[persona_leyendo]+= paginas[libro];
 					libro++;
