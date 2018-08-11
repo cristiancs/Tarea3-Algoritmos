@@ -54,6 +54,10 @@ int main() {
 						libro = libros;
 						break;
 					}
+					if(toRead[persona_leyendo] > min_max) {
+						libro = libros;
+						break;
+					}
 					acumulado_leido+=paginas[libro];
 					toRead[persona_leyendo]+= paginas[libro];
 					libro++;
