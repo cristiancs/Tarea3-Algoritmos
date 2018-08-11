@@ -73,7 +73,7 @@ int main() {
 				}
 				persona_leyendo++;
 			}
-			limiter+=paginas_minimas/integrantes;
+			limiter+=2;
 			min_max = min(maximo, min_max);
 			
 		}
