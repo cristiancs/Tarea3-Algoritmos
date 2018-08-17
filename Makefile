@@ -22,10 +22,10 @@ HEADERS = $(wildcard *.h)
 $(TARGET): $(OBJECTS)
 	$(CC) $(OBJECTS) $(CFLAGS) -o $@
 
-libro:
+pregunta1:
 	./p1.out < input.txt > output.txt
 	
-sarcofago:
+pregunta2:
 	./p2.out < input.txt > output.txt
 
 test:
