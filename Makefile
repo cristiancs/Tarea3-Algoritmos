@@ -6,12 +6,12 @@ CFLAGS = -Wall
 .PHONY: default all clean
 
 default: 
-	$(CC) libros.cpp -o p1.out $(CFLAGS)
-	$(CC) sarcofago.cpp -o p2.out $(CFLAGS)
+	$(CC) ejercicio1.cpp -o ejercicio1 $(CFLAGS)
+	$(CC) ejercicio2.cpp -o ejercicio1.out $(CFLAGS)
 
 all: default
 
-OBJECTS = libros.cpp sarcofago.cpp
+OBJECTS = ejercicio1.cpp ejercicio2.cpp
 HEADERS = $(wildcard *.h)
 
 %.o: %.c $(HEADERS)
@@ -23,7 +23,7 @@ $(TARGET): $(OBJECTS)
 	$(CC) $(OBJECTS) $(CFLAGS) -o $@
 
 pregunta1:
-	./p1.out < input.txt > output.txt
+	./ejercicio1 < input.txt > output.txt
 	
 pregunta2:
 	./p2.out < input.txt > output.txt
