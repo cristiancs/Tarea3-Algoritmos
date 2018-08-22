@@ -10,5 +10,5 @@
 using namespace std;
 
 int main() {
-	cout <<  "Initial Commit" << endl
+	cout <<  "Initial Commit" << endl;
 }
