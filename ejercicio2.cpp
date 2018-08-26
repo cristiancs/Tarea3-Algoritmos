@@ -11,7 +11,7 @@ using namespace std;
 
 typedef unordered_map<int, int> mapa;
 
-void allSubsetSum(vector<int> pesos, int n_alimentos, int calorias) {
+void allSubsetSum(mapa cod_peso, vector<int> pesos, int n_alimentos, int calorias) {
 	//
      // Llenado de tabla de programacion dinámica
 	//
@@ -65,17 +65,19 @@ void allSubsetSum(vector<int> pesos, int n_alimentos, int calorias) {
 			// Se llegó a una solución
 			if (sum_actual == 0) {
 				// Guardar solución
-				stack<int> cola;
+				stack<int> pila_aux;
 				while (!incluidos.empty()) {
 					int act = incluidos.top();
 					incluidos.pop();
-					cola.push(act);
-					cout << act << " ";
+					pila_aux.push(act);
+					// Imprimir salida
+					cout << cod_peso[pesos[act]] << " ";
 				}
 				cout << endl;
-				while (!cola.empty()) {
-					int act = cola.top();
-					cola.pop();
+				// Volver a estado anterior
+				while (!pila_aux.empty()) {
+					int act = pila_aux.top();
+					pila_aux.pop();
 					incluidos.push(act);
 				}
 
@@ -112,7 +114,6 @@ void allSubsetSum(vector<int> pesos, int n_alimentos, int calorias) {
 	}
 }
 
-// Driver code
 int main()
 {	
 	int n_alimentos, k_cal_esperadas, id_alim, w_alim, i;
@@ -128,13 +129,11 @@ int main()
 			array_w[i] = w_alim;
 			int w = w_alim;
 			int id = id_alim;
-			//cod_peso[w].insert(id);
 			cod_peso.insert(pair<int, int>(w, id));
 		}
 		// Entregar arreglo ordenado
 		sort(array_w.begin(), array_w.end());
-		allSubsetSum(array_w, n_alimentos, k_cal_esperadas);
-		cout << endl;
+		allSubsetSum(cod_peso, array_w, n_alimentos, k_cal_esperadas);
 	}
     return 0;
 }
