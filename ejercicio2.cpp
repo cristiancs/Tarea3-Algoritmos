@@ -8,6 +8,26 @@ using namespace std;
  
 
 typedef unordered_map<int, int> mapa;
+bool wayToSort(vector<int> i, vector<int> j) { 
+	//return i.size() < j.size();
+	if (i.size() < j.size()) {
+		return true;
+	}
+	else if (i.size() > j.size()) {
+		return false;
+	}
+
+	vector<int>:: iterator it2 = j.begin();
+	for (vector<int>::iterator it = i.begin(); it != i.end(); it++) {
+		if (*it < *it2) {
+			return true;
+		}
+		else if (*it > *it2) {
+			return false;
+		}
+		it2++;
+	}
+}
 
 void allSubsetSum(mapa cod_peso, vector<int> pesos, int n_alimentos, int calorias) {
 	//
@@ -50,9 +70,10 @@ void allSubsetSum(mapa cod_peso, vector<int> pesos, int n_alimentos, int caloria
 	 // Buscar posibles soluciones
 	//
 	 // No era posible
-	 if (dp[n_alimentos-1][calorias] == 0){
-		 cout << "0" << endl;
-	 }
+	vector<vector<int> > soluciones;
+	if (dp[n_alimentos-1][calorias] == 0) {
+		cout << "0" << endl;
+	}
 
 	// Es posible
 	else {
@@ -75,10 +96,12 @@ void allSubsetSum(mapa cod_peso, vector<int> pesos, int n_alimentos, int caloria
 					
 				}
 				sort(sol_actual.begin(), sol_actual.end());
+				soluciones.insert(soluciones.begin(), sol_actual);
+				/*
 				for (vector<int>::iterator it = sol_actual.begin(); it != sol_actual.end(); it++ ) {
 					cout << *it << " ";
 				}	
-				cout << endl;
+				cout << endl;*/
 				// Volver a estado anterior
 				while (!pila_aux.empty()) {
 					int act = pila_aux.top();
@@ -117,6 +140,14 @@ void allSubsetSum(mapa cod_peso, vector<int> pesos, int n_alimentos, int caloria
 			i--;
 		}
 	}
+
+	sort(soluciones.begin(), soluciones.end(), wayToSort);
+	for (vector<vector<int> >::iterator it = soluciones.begin(); it != soluciones.end(); it++ ) {
+		for (vector<int>::iterator it2 = (*it).begin(); it2 != (*it).end(); it2++ ) {
+			cout << *it2 << " ";
+		}
+		cout << endl;
+	}	
 }
 
 int main()
