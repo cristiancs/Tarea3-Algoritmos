@@ -27,6 +27,7 @@ bool wayToSort(vector<int> i, vector<int> j) {
 		}
 		it2++;
 	}
+	return true;
 }
 
 void allSubsetSum(mapa cod_peso, vector<int> pesos, int n_alimentos, int calorias) {
