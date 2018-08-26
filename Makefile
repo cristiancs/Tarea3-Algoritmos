@@ -7,7 +7,7 @@ CFLAGS = -Wall
 
 default: 
 	$(CC) ejercicio1.cpp -o ejercicio1 $(CFLAGS)
-	$(CC) ejercicio2.cpp -o ejercicio1.out $(CFLAGS)
+	$(CC) ejercicio2.cpp -o ejercicio2 $(CFLAGS)
 
 all: default
 
@@ -22,11 +22,11 @@ HEADERS = $(wildcard *.h)
 $(TARGET): $(OBJECTS)
 	$(CC) $(OBJECTS) $(CFLAGS) -o $@
 
-pregunta1:
+p1:
 	./ejercicio1 < input.txt > output.txt
 	
-pregunta2:
-	./p2.out < input.txt > output.txt
+p2:
+	./ejercicio2 < input.txt > output.txt
 
 test:
 	./$(TARGET) < input.txt

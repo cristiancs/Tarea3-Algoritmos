@@ -8,8 +8,10 @@ using namespace std;
  
 
 typedef unordered_map<int, int> mapa;
+
+// Funcion para el sort para ordenar las soluciones
 bool wayToSort(vector<int> i, vector<int> j) { 
-	//return i.size() < j.size();
+	// Priorizar mas cortos
 	if (i.size() < j.size()) {
 		return true;
 	}
@@ -17,17 +19,18 @@ bool wayToSort(vector<int> i, vector<int> j) {
 		return false;
 	}
 
-	vector<int>:: iterator it2 = j.begin();
+	// Comparar por elemento
+	vector<int>::iterator it2 = j.begin();
 	for (vector<int>::iterator it = i.begin(); it != i.end(); it++) {
-		if (*it < *it2) {
+		if ((*it) < (*it2)) {
 			return true;
 		}
-		else if (*it > *it2) {
+		else if ((*it) > (*it2)) {
 			return false;
 		}
 		it2++;
 	}
-	return true;
+	return false;
 }
 
 void allSubsetSum(mapa cod_peso, vector<int> pesos, int n_alimentos, int calorias) {
@@ -91,18 +94,14 @@ void allSubsetSum(mapa cod_peso, vector<int> pesos, int n_alimentos, int caloria
 					int act = incluidos.top();
 					incluidos.pop();
 					pila_aux.push(act);
-					// Imprimir salida
+					// Guardar codigo
 					sol_actual.insert(sol_actual.begin(), cod_peso[pesos[act]]);
-					//cout << cod_peso[pesos[act]] << " ";
-					
 				}
+				// Ordenar codigos
 				sort(sol_actual.begin(), sol_actual.end());
+				// Guardar solucion
 				soluciones.insert(soluciones.begin(), sol_actual);
-				/*
-				for (vector<int>::iterator it = sol_actual.begin(); it != sol_actual.end(); it++ ) {
-					cout << *it << " ";
-				}	
-				cout << endl;*/
+				
 				// Volver a estado anterior
 				while (!pila_aux.empty()) {
 					int act = pila_aux.top();
@@ -132,9 +131,9 @@ void allSubsetSum(mapa cod_peso, vector<int> pesos, int n_alimentos, int caloria
 
 			// Saltar peso que no sirve
 			if ((sum_actual-pesos[i]<0) || (dp[i][sum_actual] == 0)) {
-					i--;
-					continue;
-				}
+				i--;
+				continue;
+			}
 			// Si me sirve, guardar posicion y probar
 			incluidos.push(i);
 			sum_actual-=pesos[i];
@@ -142,7 +141,10 @@ void allSubsetSum(mapa cod_peso, vector<int> pesos, int n_alimentos, int caloria
 		}
 	}
 
+	// Ordenar
 	sort(soluciones.begin(), soluciones.end(), wayToSort);
+
+	// imprimir
 	for (vector<vector<int> >::iterator it = soluciones.begin(); it != soluciones.end(); it++ ) {
 		for (vector<int>::iterator it2 = (*it).begin(); it2 != (*it).end(); it2++ ) {
 			cout << *it2 << " ";
@@ -151,8 +153,7 @@ void allSubsetSum(mapa cod_peso, vector<int> pesos, int n_alimentos, int caloria
 	}	
 }
 
-int main()
-{	
+int main() {	
 	int n_alimentos, k_cal_esperadas, id_alim, w_alim, i;
 	// Leer n, k
 	while(cin >> n_alimentos >> k_cal_esperadas){
@@ -170,6 +171,7 @@ int main()
 		}
 		// Entregar arreglo ordenado
 		sort(array_w.begin(), array_w.end());
+		// Buscar subarreglos
 		allSubsetSum(cod_peso, array_w, n_alimentos, k_cal_esperadas);
 		cout << endl;
 	}
