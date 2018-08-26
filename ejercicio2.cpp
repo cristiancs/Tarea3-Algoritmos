@@ -4,27 +4,29 @@
 #include <algorithm>
 #include <stack>
 #include <vector>
+#include <queue>
 
 using namespace std;
  
 
 typedef unordered_map<int, int> mapa;
 
-void allSubsetSum(vector<int> pesos, int n_alimentos, int calorias)
-{
-    // The value of subset[i][j] will be true if there is a 
-    // subset of set[0..j-1] with sum equal to i
+void allSubsetSum(vector<int> pesos, int n_alimentos, int calorias) {
+	//
+     // Llenado de tabla de programacion dinámica
+	//
+
     bool dp[n_alimentos][calorias+1];
   
-    // If sum is 0, then answer is true
+    // Primera columna todos 1
     for (int i = 0; i <= n_alimentos; i++) dp[i][0] = true;
-  
-    // If sum is not 0 and set is empty, then answer is false
-    //for (int i = 1; i <= calorias; i++) dp[0][i] = false;
-  
-     // Fill the dp table in botton up manner
-     for (int i = 0; i < n_alimentos; i++) {
-       for (int j = 1; j <= calorias; j++) {
+
+	// Llenar de forma acumulada
+	// si el j-esimo se podia hacer en la columna anterior o
+	// si la diferencia se podia
+    for (int i = 0; i < n_alimentos; i++) {
+       	for (int j = 1; j <= calorias; j++) {
+			// Primera fila
 		   	if (i == 0) {
 				if (j - pesos[i] == 0) {
 					dp[i][j] = true;
@@ -34,6 +36,7 @@ void allSubsetSum(vector<int> pesos, int n_alimentos, int calorias)
 
 				}
 		   	}
+			// Resto
 			else {
 				if (j<pesos[i]) {
 					dp[i][j] = dp[i-1][j];
@@ -42,21 +45,12 @@ void allSubsetSum(vector<int> pesos, int n_alimentos, int calorias)
         			dp[i][j] = dp[i-1][j] || dp[i - 1][j-pesos[i]];
 				}
 			}
-       }
+       	}
      }
-  
-        // uncomment this code to print table
-     for (int i = 0; i < n_alimentos; i++){
-       	for (int j = 0; j <= calorias; j++) {
-        	printf ("%4d", dp[i][j]);
-	   	}
-       printf("\n");
-     }
-  
-     //return dp;
 
+	//
 	 // Buscar posibles soluciones
-
+	//
 	 // No era posible
 	 if (dp[n_alimentos-1][calorias] == 0){
 		 cout << "0" << endl;
@@ -67,43 +61,53 @@ void allSubsetSum(vector<int> pesos, int n_alimentos, int calorias)
 		stack <int> incluidos;
 		int sum_actual = calorias;
 		int i = n_alimentos-1;
-		while (i >= 0) {
-			if (dp[i][sum_actual] == 1) {
-				incluidos.push(pesos[i]);
-				//i = sum_actual-pesos[i];
-				i = distance(pesos.begin(), find(pesos.begin(), pesos.end(), pesos[i]));
-
-			}
-			else {
-				i--;
-			}
-			if (i==0) {
-				// Se llegó al final de la matriz
-
-				// Copiar
-
-
-				// Seguir con otras soluciones
-				if (incluidos.size() == 0) break;
-				int peso_actual = incluidos.top();
-				sum_actual += peso_actual;
-				incluidos.pop();
-				i = distance(pesos.begin(), find(pesos.begin(), pesos.end(), peso_actual))-1;
-				if (i<0) break;
-				continue;
-			}
+		while (true) {
+			// Se llegó a una solución
 			if (sum_actual == 0) {
-				// Se llegó a una solución
-
-				// Copiar
+				// Guardar solución
+				stack<int> cola;
+				while (!incluidos.empty()) {
+					int act = incluidos.top();
+					incluidos.pop();
+					cola.push(act);
+					cout << act << " ";
+				}
+				cout << endl;
+				while (!cola.empty()) {
+					int act = cola.top();
+					cola.pop();
+					incluidos.push(act);
+				}
 
 				// Seguir
-				int peso_actual = incluidos.top();
-				sum_actual += peso_actual;
+				i = incluidos.top();
+				sum_actual += pesos[i];
 				incluidos.pop();
-				i = distance(pesos.begin(), find(pesos.begin(), pesos.end(), peso_actual))-1;
-
+				i--;
 			}
+
+			// Se acabó la profundidad
+			if (i < 0) {
+				// Se terminó la búsqueda
+				if (incluidos.empty()) {
+					break;
+				}
+				// Continuar en nivel anterior
+				i = incluidos.top();
+				sum_actual+= pesos[i];
+				incluidos.pop();
+				i--;
+			}
+
+			// Saltar peso que no sirve
+			if ((sum_actual-pesos[i]<0) || (dp[i][sum_actual] == 0)) {
+					i--;
+					continue;
+				}
+			// Si me sirve, guardar posicion y probar
+			incluidos.push(i);
+			sum_actual-=pesos[i];
+			i--;
 		}
 	}
 }
@@ -112,10 +116,13 @@ void allSubsetSum(vector<int> pesos, int n_alimentos, int calorias)
 int main()
 {	
 	int n_alimentos, k_cal_esperadas, id_alim, w_alim, i;
+	// Leer n, k
 	while(cin >> n_alimentos >> k_cal_esperadas){
 		mapa cod_peso;
+		// Arreglo con pesos
 		vector<int> array_w(n_alimentos);
 
+		// Leer cada alimento
 		for (i = 0; i < n_alimentos; i++) {
 			cin >> id_alim >> w_alim;
 			array_w[i] = w_alim;
@@ -124,11 +131,7 @@ int main()
 			//cod_peso[w].insert(id);
 			cod_peso.insert(pair<int, int>(w, id));
 		}
-
-		cout << "n_alimentos: " << n_alimentos << "  calorias a sum: "<< k_cal_esperadas<<endl;
-		/*for (auto it = cod_peso.begin(); it != cod_peso.end(); ++it) {
-			cout << "peso: " << it->first << " || cod: " << it->second<<endl;
-		}*/
+		// Entregar arreglo ordenado
 		sort(array_w.begin(), array_w.end());
 		allSubsetSum(array_w, n_alimentos, k_cal_esperadas);
 		cout << endl;
