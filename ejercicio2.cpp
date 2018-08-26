@@ -134,6 +134,7 @@ int main()
 		// Entregar arreglo ordenado
 		sort(array_w.begin(), array_w.end());
 		allSubsetSum(cod_peso, array_w, n_alimentos, k_cal_esperadas);
+		cout << endl;
 	}
     return 0;
 }
