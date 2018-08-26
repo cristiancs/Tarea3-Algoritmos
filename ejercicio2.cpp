@@ -64,13 +64,20 @@ void allSubsetSum(mapa cod_peso, vector<int> pesos, int n_alimentos, int caloria
 			if (sum_actual == 0) {
 				// Guardar solución
 				stack<int> pila_aux;
+				vector<int> sol_actual;
 				while (!incluidos.empty()) {
 					int act = incluidos.top();
 					incluidos.pop();
 					pila_aux.push(act);
 					// Imprimir salida
-					cout << cod_peso[pesos[act]] << " ";
+					sol_actual.insert(sol_actual.begin(), cod_peso[pesos[act]]);
+					//cout << cod_peso[pesos[act]] << " ";
+					
 				}
+				sort(sol_actual.begin(), sol_actual.end());
+				for (vector<int>::iterator it = sol_actual.begin(); it != sol_actual.end(); it++ ) {
+					cout << *it << " ";
+				}	
 				cout << endl;
 				// Volver a estado anterior
 				while (!pila_aux.empty()) {
